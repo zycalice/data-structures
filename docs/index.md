@@ -1,8 +1,3 @@
----
-title: data structures
-permalink: /data_structures/
----
-
 # Data Structures Essentials (zybook)
 
 ## Authors and contributors: 
