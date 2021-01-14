@@ -296,3 +296,11 @@ Partition(numbers, lowIndex, highIndex) {
    return highIndex
 }
 ```
+
+This partition algorithm above attempts to partition the data into two groups: a group greater than the middle element, and a group smaller or equal to the middle element. It does this checking for each elements from both sides. If a number is positioned to the left of the middle element and is smaller than the middle element, the number is at its correct location. If a number is positioned to the right of the middle element and is greater than the middle element, the number is also at its correct location. If they are not at their correct location, the while loops will stop and if lowIndex and HighIndex are still going on (which indicates the partition process did not end), the algorithm will swap these two numbers so they are at the right positions. 
+* The pivot value is the value of the middle element.
+* lowIndex is incremented until a value greater than the pivot is found.
+* highIndex is decremented until a value less than the pivot is found.
+* Elements at indices lowIndex and highIndex are swapped, moving those elements to the correct partitions.
+* The partition process repeats until indices lowIndex and highIndex reach or pass each other, indicating all elements have been partitioned.
+* Once partitioned, the algorithm returns highIndex, which is the highest index of the low partition. The partitions are not yet sorted.
