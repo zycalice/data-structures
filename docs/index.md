@@ -252,7 +252,7 @@ Shell sort tends to perform well when choosing gap values in descending order. A
 Using gap values that are powers of 2 or in descending order is not required. Shell sort will correctly sort arrays using any positive integer gap values in any order, provided a gap value of 1 is included.
 
 
-#### Quick sort - runtime O(nlog(n))
+#### Quick sort - typical runtime O(nlog(n)), worst case runtime O(N^2)
 Quicksort is a sorting algorithm that repeatedly partitions the input into low and high parts (each part unsorted), and then recursively sorts each of those parts. To partition the input, quicksort chooses a pivot to divide the data into low and high parts. The pivot can be any value within the array being sorted, commonly the value of the middle array element. Ex: For the list (4, 34, 10, 25, 1), the middle element is located at index 2 (the middle of indices [0, 4]) and has a value of 10. How partitioning a list into two unsorted parts: one part <= a pivot value and the other part >= a pivot value, and then recursively sorting each part, ultimately leads to a sorted list.
 
 ```
