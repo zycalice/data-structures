@@ -330,3 +330,13 @@ Quicksort(numbers, lowIndex, highIndex) {
 
 The QuickSort function then calls the partition function, and partition the data recurssively.
 
+Example: [6, 4, 7, 18, 8]
+* The list from low index 0 to high index 4 has more than 1 element, so Partition is called.
+* Quicksort is called recursively to sort the low and high partitions.
+* The low partition has more than one element. Partition is called for the low partition, followed by recursive calls to Quicksort.
+* Each partition that has one element is already sorted.
+* The high partition has more than one element and thus is partitioned and recursively sorted.
+* The low partition with two elements is partitioned and recursively sorted.
+* Each remaining partition with only one element is already sorted.
+* All elements are sorted.
+
