@@ -341,3 +341,5 @@ Example: [6, 4, 7, 18, 8]
 
 The quicksort algorithm's runtime is typically O(N log N). Quicksort has several partitioning levels, the first level dividing the input into 2 parts, the second into 4 parts, the third into 8 parts, etc. At each level, the algorithm does at most N comparisons moving the lowIndex and highIndex indices. If the pivot yields two equal-sized parts, then there will be log N levels, requiring the N * log N comparisons.
 
+For typical unsorted data, such equal partitioning occurs. However, partitioning may yield unequally sized parts in some cases. If the pivot selected for partitioning is the smallest or largest element, one partition will have just 1 element, and the other partition will have all other elements. If this unequal partitioning happens at every level, there will be N - 1 levels, yielding N + N-1 + N-2 + ... + 2 + 1 = (N+1)/(N/2), which is O(N). So the worst case runtime for the quicksort algorithm is O(N). Fortunately, this worst case runtime rarely occurs.
+
