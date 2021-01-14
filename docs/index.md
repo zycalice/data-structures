@@ -250,3 +250,49 @@ Shell sort begins by picking an arbitrary collection of gap values. For each gap
 Shell sort tends to perform well when choosing gap values in descending order. A common option is to choose powers of 2 minus 1, in descending order. Ex: For an array of size 100, gap values would be 63, 31, 15, 7, 3, and 1. This gap selection technique results in shell sort's time complexity being no worse than O(N^(3/2)).
 
 Using gap values that are powers of 2 or in descending order is not required. Shell sort will correctly sort arrays using any positive integer gap values in any order, provided a gap value of 1 is included.
+
+
+#### Quick sort
+Quicksort is a sorting algorithm that repeatedly partitions the input into low and high parts (each part unsorted), and then recursively sorts each of those parts. To partition the input, quicksort chooses a pivot to divide the data into low and high parts. The pivot can be any value within the array being sorted, commonly the value of the middle array element. Ex: For the list (4, 34, 10, 25, 1), the middle element is located at index 2 (the middle of indices [0, 4]) and has a value of 10.
+
+Once the pivot is chosen, the quicksort algorithm divides the array into two parts, referred to as the low partition and the high partition. All values in the low partition are less than or equal to the pivot value. All values in the high partition are greater than or equal to the pivot value. The values in each partition are not necessarily sorted. Ex: Partitioning (4, 34, 10, 25, 1) with a pivot value of 10 results in a low partition of (4, 1, 10) and a high partition of (25, 34). Values equal to the pivot may appear in either or both of the partitions.
+
+```
+
+Partition(numbers, lowIndex, highIndex) {
+   // Pick middle element as pivot
+   midpoint = lowIndex + (highIndex - lowIndex) / 2
+   pivot = numbers[midpoint]
+ 
+   done = false
+   while (!done) {
+      // Increment lowIndex while numbers[lowIndex] < pivot
+      while (numbers[lowIndex] < pivot) {
+         lowIndex += 1
+      }
+    
+      // Decrement highIndex while pivot < numbers[highIndex]
+      while (pivot < numbers[highIndex]) {
+         highIndex -= 1
+      }
+    
+      // If zero or one elements remain, then all numbers are
+      // partitioned. Return highIndex.
+      if (lowIndex >= highIndex) {
+         done = true
+      }
+      else {
+         // Swap numbers[lowIndex] and numbers[highIndex]
+         temp = numbers[lowIndex]
+         numbers[lowIndex] = numbers[highIndex]
+         numbers[highIndex] = temp
+       
+         // Update lowIndex and highIndex
+         lowIndex += 1
+         highIndex -= 1
+      }
+   }
+ 
+   return highIndex
+}
+```
