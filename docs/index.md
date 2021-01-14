@@ -301,7 +301,7 @@ This partition algorithm above attempts to partition the data into two groups: a
 
 The partitioning algorithm uses two index variables lowIndex and highIndex, initialized to the left and right sides of the current elements being sorted. As long as the value at index lowIndex is less than the pivot value, the algorithm increments lowIndex, because the element should remain in the low partition. Likewise, as long as the value at index highIndex is greater than the pivot value, the algorithm decrements highIndex, because the element should remain in the high partition. Then, if lowIndex >= highIndex, all elements have been partitioned, and the partitioning algorithm returns highIndex, which is the index of the last element in the low partition. Otherwise, the elements at indices lowIndex and highIndex are swapped to move those elements to the correct partitions. The algorithm then increments lowIndex, decrements highIndex, and repeats.
 
-* The pivot value is the value of the middle element.
+* The pivot value is the value of the middle element. (If the number of elements in the numbers array is even, the midpoint value is rounded down.)
 * lowIndex is incremented until a value greater than the pivot is found.
 * highIndex is decremented until a value less than the pivot is found.
 * Elements at indices lowIndex and highIndex are swapped, moving those elements to the correct partitions.
