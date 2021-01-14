@@ -308,4 +308,25 @@ The partitioning algorithm uses two index variables lowIndex and highIndex, init
 * The partition process repeats until indices lowIndex and highIndex reach or pass each other, indicating all elements have been partitioned.
 * Once partitioned, the algorithm returns highIndex, which is the highest index of the low partition. The partitions are not yet sorted.
 
+```
+Quicksort(numbers, lowIndex, highIndex) {
+   // Base case: If the partition size is 1 or zero 
+   // elements, then the partition is already sorted
+   if (lowIndex >= highIndex) {
+      return
+   }
+   
+   // Partition the data within the array. Value lowEndIndex 
+   // returned from partitioning is the index of the low 
+   // partition's last element.
+   lowEndIndex = Partition(numbers, lowIndex, highIndex)
+   
+   // Recursively sort low partition (lowIndex to lowEndIndex) 
+   // and high partition (lowEndIndex + 1 to highIndex)
+   Quicksort(numbers, lowIndex, lowEndIndex)
+   Quicksort(numbers, lowEndIndex + 1, highIndex)
+}
+```
+
+The QuickSort function then calls the partition function, and partition the data recurssively.
 
