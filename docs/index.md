@@ -244,9 +244,102 @@ InsertionSortInterleaved(numbers, numbersSize, startIndex, gap) {
 ```
 For list = [88, 67, 91, 45, 14, 68, 71, 26, 64], we need to call (list, 9, 0, 3), (list, 9, 1, 3), (list, 9, 2, 3) to sort interleaved lists, and then finally (list, 9, 0, 1) to sort the overall nearly sorted list.
 
-##### Shell sort
+##### Shell sort - runtime O(N^(3/2))
 Shell sort begins by picking an arbitrary collection of gap values. For each gap value K, K calls are made to the insertion sort variant function to sort K interleaved lists. Shell sort ends with a final gap value of 1, to finish with the regular insertion sort.
 
 Shell sort tends to perform well when choosing gap values in descending order. A common option is to choose powers of 2 minus 1, in descending order. Ex: For an array of size 100, gap values would be 63, 31, 15, 7, 3, and 1. This gap selection technique results in shell sort's time complexity being no worse than O(N^(3/2)).
 
 Using gap values that are powers of 2 or in descending order is not required. Shell sort will correctly sort arrays using any positive integer gap values in any order, provided a gap value of 1 is included.
+
+
+#### Quick sort - typical runtime O(nlog(n)), worst case runtime O(N^2)
+Quicksort is a sorting algorithm that repeatedly partitions the input into low and high parts (each part unsorted), and then recursively sorts each of those parts. To partition the input, quicksort chooses a pivot to divide the data into low and high parts. The pivot can be any value within the array being sorted, commonly the value of the middle array element. Ex: For the list (4, 34, 10, 25, 1), the middle element is located at index 2 (the middle of indices [0, 4]) and has a value of 10. How partitioning a list into two unsorted parts: one part <= a pivot value and the other part >= a pivot value, and then recursively sorting each part, ultimately leads to a sorted list.
+
+```
+
+Partition(numbers, lowIndex, highIndex) {
+   // Pick middle element as pivot
+   midpoint = lowIndex + (highIndex - lowIndex) / 2
+   pivot = numbers[midpoint]
+ 
+   done = false
+   while (!done) {
+      // Increment lowIndex while numbers[lowIndex] < pivot
+      while (numbers[lowIndex] < pivot) {
+         lowIndex += 1
+      }
+    
+      // Decrement highIndex while pivot < numbers[highIndex]
+      while (pivot < numbers[highIndex]) {
+         highIndex -= 1
+      }
+    
+      // If zero or one elements remain, then all numbers are
+      // partitioned. Return highIndex.
+      if (lowIndex >= highIndex) {
+         done = true
+      }
+      else {
+         // Swap numbers[lowIndex] and numbers[highIndex]
+         temp = numbers[lowIndex]
+         numbers[lowIndex] = numbers[highIndex]
+         numbers[highIndex] = temp
+       
+         // Update lowIndex and highIndex
+         lowIndex += 1
+         highIndex -= 1
+      }
+   }
+ 
+   return highIndex
+}
+```
+
+This partition algorithm above attempts to partition the data into two groups: a group greater than or equal to the middle element, and a group smaller or equal to the middle element. It does this checking for each elements from both sides. If a number is positioned to the left of the middle element and is smaller than the middle element, the number is at its correct location. If a number is positioned to the right of the middle element and is greater than the middle element, the number is also at its correct location. If they are not at their correct location, the while loops will stop and if lowIndex and HighIndex are still going on (which indicates the partition process did not end), the algorithm will swap these two numbers so they are at the right positions. 
+
+The partitioning algorithm uses two index variables lowIndex and highIndex, initialized to the left and right sides of the current elements being sorted. As long as the value at index lowIndex is less than the pivot value, the algorithm increments lowIndex, because the element should remain in the low partition. Likewise, as long as the value at index highIndex is greater than the pivot value, the algorithm decrements highIndex, because the element should remain in the high partition. Then, if lowIndex >= highIndex, all elements have been partitioned, and the partitioning algorithm returns highIndex, which is the index of the last element in the low partition. Otherwise, the elements at indices lowIndex and highIndex are swapped to move those elements to the correct partitions. The algorithm then increments lowIndex, decrements highIndex, and repeats.
+
+* The pivot value is the value of the middle element. (If the number of elements in the numbers array is even, the midpoint value is rounded down.)
+* lowIndex is incremented until a value greater than the pivot is found.
+* highIndex is decremented until a value less than the pivot is found.
+* Elements at indices lowIndex and highIndex are swapped, moving those elements to the correct partitions.
+* The partition process repeats until indices lowIndex and highIndex reach or pass each other, indicating all elements have been partitioned.
+* Once partitioned, the algorithm returns highIndex, which is the highest index of the low partition. The partitions are not yet sorted.
+
+```
+Quicksort(numbers, lowIndex, highIndex) {
+   // Base case: If the partition size is 1 or zero 
+   // elements, then the partition is already sorted
+   if (lowIndex >= highIndex) {
+      return
+   }
+   
+   // Partition the data within the array. Value lowEndIndex 
+   // returned from partitioning is the index of the low 
+   // partition's last element.
+   lowEndIndex = Partition(numbers, lowIndex, highIndex)
+   
+   // Recursively sort low partition (lowIndex to lowEndIndex) 
+   // and high partition (lowEndIndex + 1 to highIndex)
+   Quicksort(numbers, lowIndex, lowEndIndex)
+   Quicksort(numbers, lowEndIndex + 1, highIndex)
+}
+```
+
+The QuickSort function then calls the partition function, and partition the data recurssively.
+
+Example: [6, 4, 7, 18, 8]
+* The list from low index 0 to high index 4 has more than 1 element, so Partition is called.
+* Quicksort is called recursively to sort the low and high partitions.
+* The low partition has more than one element. Partition is called for the low partition, followed by recursive calls to Quicksort.
+* Each partition that has one element is already sorted.
+* The high partition has more than one element and thus is partitioned and recursively sorted.
+* The low partition with two elements is partitioned and recursively sorted.
+* Each remaining partition with only one element is already sorted.
+* All elements are sorted.
+
+
+The quicksort algorithm's runtime is typically O(N log N). Quicksort has several partitioning levels, the first level dividing the input into 2 parts, the second into 4 parts, the third into 8 parts, etc. At each level, the algorithm does at most N comparisons moving the lowIndex and highIndex indices. If the pivot yields two equal-sized parts, then there will be log N levels, requiring the N * log N comparisons.
+
+For typical unsorted data, such equal partitioning occurs. However, partitioning may yield unequally sized parts in some cases. If the pivot selected for partitioning is the smallest or largest element, one partition will have just 1 element, and the other partition will have all other elements. If this unequal partitioning happens at every level, there will be N - 1 levels, yielding N + N-1 + N-2 + ... + 2 + 1 = (N+1)/(N/2), which is O(N). So the worst case runtime for the quicksort algorithm is O(N). Fortunately, this worst case runtime rarely occurs.
+
