@@ -71,16 +71,72 @@ def shell_sort(num_list, num_size, gap_values):
     A common option is to choose powers of 2 minus 1, in descending order.
     Ex: For an array of size 100, gap values would be 63, 31, 15, 7, 3, and 1.
     Shell sort ends with a final gap value of 1, to finish with the regular insertion sort.
-    :param num_list:
-    :param num_size:
-    :param gap_values:
-    :return:
+    :param num_list: a list of numbers that needs to be sorted
+    :param num_size: number of numbers in the list
+    :param gap_values: integer, how much numbers to skip when comparing
+    :return: sorted list
     """
 
     for g in gap_values:
         for i in (range(g)):  # if gap is 3, need to run start_idx 0,1,2
             insertion_sort_interleaved(num_list, num_size, i, g)
     return num_list
+
+
+def partition(num_list, low_index, high_index):
+    """
+    Helper method for quick sort function
+    :param num_list: a list of numbers that needs to be sorted
+    :param low_index: low index of the list to be sorted
+    :param high_index: high index of the list to be sorted
+    :return: final high index value, which is the end index for the lower partition
+    """
+    # pick middle element
+    midpoint = int(low_index + int(high_index - low_index)/2)
+    pivot = num_list[midpoint]
+
+    # could use done = False first, and set done = low_index >= high_index after the while loops
+    while low_index < high_index:
+        # increment low index while num_list[low_index] < pivot
+        while num_list[low_index] < pivot:
+            low_index += 1
+
+        # decrement high index while num_list[high_index] > pivot
+        while num_list[high_index] > pivot:
+            high_index -= 1
+
+        # if low_index is still smaller than high index after the above code
+        # swap num_list[low_index] and num_list[high_index] bc they are at the wrong bucket
+        if low_index < high_index:
+            num_list[low_index], num_list[high_index] = num_list[high_index], num_list[low_index]
+
+            # update low_index and high_index
+            low_index += 1
+            high_index -= 1
+
+    return high_index
+
+
+def quick_sort(num_list, low_index, high_index):
+    """
+    Quick sort method to sort a number list
+    :param num_list: a list of numbers that needs to be sorted
+    :param low_index: low index of the list to be sorted
+    :param high_index: high index of the list to be sorted
+    :return: a sorted list
+    """
+
+    # base case: if the partition size is 1 or zero elements, then the partition is already sorted
+    if low_index >= high_index:
+        return
+
+    # save low_end_index, which is the high_index from previous partition
+    low_end_index = partition(num_list, low_index, high_index)
+    print(num_list)
+
+    # recursively sort low partitions and high partitions
+    quick_sort(num_list, low_index, low_end_index)
+    quick_sort(num_list, low_end_index + 1, high_index)
 
 
 if __name__ == '__main__':
@@ -98,3 +154,13 @@ if __name__ == '__main__':
     print()
     print("=== shell sort ===")
     shell_sort(example_list, len(example_list), [3, 1])
+
+    example_list1 = [10, 2, 78, 4, 45, 32, 7, 11]
+    print()
+    print("=== quick_sort 1 ===")
+    quick_sort(example_list1, 0, 7)
+
+    example_list2 = [6, 4, 7, 18, 8]
+    print()
+    print("=== quick_sort 2 ===")
+    quick_sort(example_list2, 0, 4)
