@@ -139,6 +139,14 @@ def quick_sort(num_list, low_index, high_index):
     quick_sort(num_list, low_end_index + 1, high_index)
 
 
+def merge():
+    return
+
+
+def merge_sort():
+    return
+
+
 if __name__ == '__main__':
     example_list = [9, 1, 0, 3]
     print()

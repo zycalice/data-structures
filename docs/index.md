@@ -295,7 +295,13 @@ Partition(numbers, lowIndex, highIndex) {
 }
 ```
 
-This partition algorithm above attempts to partition the data into two groups: a group greater than or equal to the middle element, and a group smaller or equal to the middle element. It does this checking for each elements from both sides. If a number is positioned to the left of the middle element and is smaller than the middle element, the number is at its correct location. If a number is positioned to the right of the middle element and is greater than the middle element, the number is also at its correct location. If they are not at their correct location, the while loops will stop and if lowIndex and HighIndex are still going on (which indicates the partition process did not end), the algorithm will swap these two numbers so they are at the right positions. 
+This partition algorithm above attempts to partition the data into two groups: a group greater than or equal to the 
+middle element, and a group smaller or equal to the middle element. It does this checking for each elements from both sides. 
+If a number is positioned to the left of the middle element and is smaller than the middle element, the number is at its 
+correct location. If a number is positioned to the right of the middle element and is greater than the middle element, 
+the number is also at its correct location. If they are not at their correct location, the while loops will stop and if 
+lowIndex and HighIndex are still going on (which indicates the partition process did not end), the algorithm will swap 
+these two numbers so they are at the right positions. 
 
 The partitioning algorithm uses two index variables lowIndex and highIndex, initialized to the left and right sides of the current elements being sorted. As long as the value at index lowIndex is less than the pivot value, the algorithm increments lowIndex, because the element should remain in the low partition. Likewise, as long as the value at index highIndex is greater than the pivot value, the algorithm decrements highIndex, because the element should remain in the high partition. Then, if lowIndex >= highIndex, all elements have been partitioned, and the partitioning algorithm returns highIndex, which is the index of the last element in the low partition. Otherwise, the elements at indices lowIndex and highIndex are swapped to move those elements to the correct partitions. The algorithm then increments lowIndex, decrements highIndex, and repeats.
 
@@ -339,7 +345,24 @@ Example: [6, 4, 7, 18, 8]
 * All elements are sorted.
 
 
-The quicksort algorithm's runtime is typically O(N log N). Quicksort has several partitioning levels, the first level dividing the input into 2 parts, the second into 4 parts, the third into 8 parts, etc. At each level, the algorithm does at most N comparisons moving the lowIndex and highIndex indices. If the pivot yields two equal-sized parts, then there will be log N levels, requiring the N * log N comparisons.
+The quicksort algorithm's runtime is typically O(N log N). Quicksort has several partitioning levels, 
+the first level dividing the input into 2 parts, the second into 4 parts, the third into 8 parts, etc. 
+At each level, the algorithm does at most N comparisons moving the lowIndex and highIndex indices. 
+If the pivot yields two equal-sized parts, then there will be log N levels, requiring the N * log N comparisons.
+* For example, if there are 16 elements and everytime the pivot is the middle number, there will be 4 partitions/levels.
 
-For typical unsorted data, such equal partitioning occurs. However, partitioning may yield unequally sized parts in some cases. If the pivot selected for partitioning is the smallest or largest element, one partition will have just 1 element, and the other partition will have all other elements. If this unequal partitioning happens at every level, there will be N - 1 levels, yielding N + N-1 + N-2 + ... + 2 + 1 = (N+1)/(N/2), which is O(N). So the worst case runtime for the quicksort algorithm is O(N). Fortunately, this worst case runtime rarely occurs.
+For typical unsorted data, such equal partitioning occurs. However, partitioning may yield unequally 
+sized parts in some cases. If the pivot selected for partitioning is the smallest or largest element, 
+one partition will have just 1 element, and the other partition will have all other elements. If this 
+unequal partitioning happens at every level, there will be N - 1 levels, yielding N + N-1 + N-2 + ... + 2 + 1 = (N+1)/(N/2), 
+which is O(N). So the worst case runtime for the quicksort algorithm is O(N). Fortunately, 
+this worst case runtime rarely occurs.
+* For example, if there are 16 elements and everytime the pivot is the largest number, there will be 15 partitions/levels.
+
+
+#### Merge Sort
+Merge sort is a sorting algorithm that divides a list into two halves, recursively sorts each half, and then merges the sorted halves to produce a sorted list. The recursive partitioning continues until a list of 1 element is reached, as a list of 1 element is already sorted.
+
+The merge sort algorithm uses three index variables to keep track of the elements to sort for each recursive function call. The index variable i is the index of first element in the list, and the index variable k is the index of the last element. The index variable j is used to divide the list into two halves. **Elements from i to j are in the left half, and elements from j + 1 to k are in the right half.**
+
 
