@@ -139,12 +139,50 @@ def quick_sort(num_list, low_index, high_index):
     quick_sort(num_list, low_end_index + 1, high_index)
 
 
-def merge():
-    return
+def merge(num_list, left_first, left_last, right_last):
+    merged_size = right_last - left_last + 1
+    merged_nums = []
+
+    left_pos = left_first
+    right_pos = left_last + 1
+
+    # Add smallest element from left or right partition to merged numbers
+    while (left_pos <= left_last) and (right_pos <= right_last):
+        if num_list[left_pos] < num_list[right_pos]:
+            merged_nums.append(num_list[left_pos])
+            left_pos += 1
+        else:
+            merged_nums.append(num_list[right_pos])
+            right_pos += 1
+
+    # If left partition is not empty, add remaining elements to merged numbers
+    while left_pos <= left_last:
+        merged_nums.append(num_list[left_pos])
+        left_pos += 1
+
+    # If right partition is not empty, add remaining elements to merged numbers
+    while right_pos <= right_last:
+        merged_nums.append(num_list[right_pos])
+        right_pos += 1
+
+    # Copy merge numbers back to numbers
+    for merge_pos in range(merged_size):
+        num_list[left_first + merge_pos] = merged_nums[merge_pos]
+
+    print(num_list)
 
 
-def merge_sort():
-    return
+def merge_sort(num_list, left_first, right_last):
+
+    if left_first < right_last:
+        left_last = int((left_first + right_last)/2)
+
+        # recursively sort left and right partitions
+        merge_sort(num_list, left_first, left_last)
+        merge_sort(num_list, left_last + 1, right_last)
+
+        # merge left and right partitions in sorted order
+        merge(num_list, left_first, left_last, right_last)
 
 
 if __name__ == '__main__':
@@ -165,10 +203,23 @@ if __name__ == '__main__':
 
     example_list1 = [10, 2, 78, 4, 45, 32, 7, 11]
     print()
-    print("=== quick_sort 1 ===")
+    print("=== quick_sort test1 ===")
     quick_sort(example_list1, 0, 7)
 
     example_list2 = [6, 4, 7, 18, 8]
     print()
-    print("=== quick_sort 2 ===")
+    print("=== quick_sort test2 ===")
     quick_sort(example_list2, 0, 4)
+
+    import sys
+    sys.setrecursionlimit(5000)
+
+    example_list1 = [6, 4, 7, 18, 8]
+    print()
+    print("=== merge_sort test1 ===")
+    merge_sort(example_list2, 0, 4)
+
+    example_list2 = [8, 4, 7, 18, 8]
+    print()
+    print("=== merge_sort test2 ===")
+    merge_sort(example_list2, 0, 4)

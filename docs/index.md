@@ -360,9 +360,87 @@ this worst case runtime rarely occurs.
 * For example, if there are 16 elements and everytime the pivot is the largest number, there will be 15 partitions/levels.
 
 
-#### Merge Sort
+#### Merge Sort  - runtime O(Nlog(N))
 Merge sort is a sorting algorithm that divides a list into two halves, recursively sorts each half, and then merges the sorted halves to produce a sorted list. The recursive partitioning continues until a list of 1 element is reached, as a list of 1 element is already sorted.
 
 The merge sort algorithm uses three index variables to keep track of the elements to sort for each recursive function call. The index variable i is the index of first element in the list, and the index variable k is the index of the last element. The index variable j is used to divide the list into two halves. **Elements from i to j are in the left half, and elements from j + 1 to k are in the right half.**
+
+
+Steps:
+* Create a temporary list for merged numbers. Initialize mergePos, leftPos, and rightPos to the first element of each of the corresponding list.
+* Compare the element in the left and right partitions. Add the smallest value to the temporary list and update the relevant indices.
+* Continue to compare the elements in the left and right partitions until one of the partitions is empty.
+* If a partition is not empty, copy the remaining elements to the temporary list. The elements are already in sorted order.
+* Lastly, the elements in the temporary list are copied back to the original list.
+
+```
+Merge(numbers, i, j, k) {
+   mergedSize = k - i + 1                // Size of merged partition
+   mergePos = 0                          // Position to insert merged number
+   leftPos = 0                           // Position of elements in left partition
+   rightPos = 0                          // Position of elements in right partition
+   mergedNumbers = new int[mergedSize]   // Dynamically allocates temporary array
+                                         // for merged numbers
+   
+   leftPos = i                           // Initialize left partition position
+   rightPos = j + 1                      // Initialize right partition position
+   
+   // Add smallest element from left or right partition to merged numbers
+   while (leftPos <= j && rightPos <= k) {
+      if (numbers[leftPos] <= numbers[rightPos]) {
+         mergedNumbers[mergePos] = numbers[leftPos]
+         ++leftPos
+      }
+      else {
+         mergedNumbers[mergePos] = numbers[rightPos]
+         ++rightPos
+         
+      }
+      ++mergePos
+   }
+   
+   // If left partition is not empty, add remaining elements to merged numbers
+   while (leftPos <= j) {
+      mergedNumbers[mergePos] = numbers[leftPos]
+      ++leftPos
+      ++mergePos
+   }
+   
+   // If right partition is not empty, add remaining elements to merged numbers
+   while (rightPos <= k) {
+      mergedNumbers[mergePos] = numbers[rightPos]
+      ++rightPos
+      ++mergePos
+   }
+   
+   // Copy merge number back to numbers
+   for (mergePos = 0; mergePos < mergedSize; ++mergePos) {
+      numbers[i + mergePos] = mergedNumbers[mergePos]
+   }
+}
+
+MergeSort(numbers, i, k) {
+   j = 0
+   
+   if (i < k) {
+      j = (i + k) / 2  // Find the midpoint in the partition
+      
+      // Recursively sort left and right partitions
+      MergeSort(numbers, i, j)
+      MergeSort(numbers, j + 1, k)
+      
+      // Merge left and right partition in sorted order
+      Merge(numbers, i, j, k)
+   }
+}
+```
+
+The merge sort algorithm's runtime is O(N log N). Merge sort divides the input in half until a list of 1 element is reached, which requires log N partitioning levels. At each level, the algorithm does about N comparisons selecting and copying elements from the left and right partitions, yielding N * log N comparisons.
+
+Merge sort requires O(N) additional memory elements for the temporary array of merged elements. For the final merge operation, the temporary list has the same number of elements as the input. Some sorting algorithms sort the list elements in place and require no additional memory, but are more complex to write and understand.
+
+To allocate the temporary array, the Merge() function dynamically allocates the array. mergedNumbers is a pointer variable that points to the dynamically allocated array, and new int[mergedSize] allocates the array with mergedSize elements. Alternatively, instead of allocating the array within the Merge() function, a temporary array with the same size as the array being sorted can be passed as an argument.
+
+
 
 
